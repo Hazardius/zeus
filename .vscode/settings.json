@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "PATH_TO_PIPENV\\python.exe",
+    //"python.linting.pylintEnabled": true,
+    "python.linting.flake8Enabled": true,
+    //"python.linting.pep8Enabled": true,
+    "python.linting.enabled": true
+}

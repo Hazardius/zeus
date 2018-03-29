@@ -12,7 +12,7 @@ pycryptodome = "*"
 "gmpy2" = "*"
 reportlab = "*"
 pyyaml = "*"
-uwsgi = "*"
+# uwsgi = "*"
 ipython = "*"
 
 [dev-packages]
@@ -24,6 +24,8 @@ mock = "*"
 django-debug-toolbar = "*"
 pytest-xdist = "*"
 "flake8" = "*"
+# "pep8" = "*"
+# pylint = "*"
 
 [requires]
 python_version = "3.6"
