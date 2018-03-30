@@ -24,7 +24,7 @@ mock = "*"
 django-debug-toolbar = "*"
 pytest-xdist = "*"
 "flake8" = "*"
-# "pep8" = "*"
+"pep8" = "*"
 # pylint = "*"
 
 [requires]

@@ -1,7 +1,9 @@
 {
+    "files.eol": "\n",
     "python.pythonPath": "PATH_TO_PIPENV\\python.exe",
-    //"python.linting.pylintEnabled": true,
+    "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     //"python.linting.pep8Enabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true
 }
