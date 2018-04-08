@@ -22,6 +22,14 @@ Then follow it up with instructions from zeus README:
     python manage.py manage_users --create-institution "ZEUS"
     python manage.py manage_users --create-user <username> --institution=1
 
+To run single test:
+
+    python manage.py test zeus.tests.test_FILENAME
+
+without the `.py`, e.g.
+
+    python manage.py test zeus.tests.test_views_utils
+
 To test system:
 
     pytest -v
