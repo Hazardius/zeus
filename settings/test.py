@@ -63,8 +63,8 @@ def mkdir_p(path):
             raise
 
 
-TESTS_DIR = os.environ.get('ZEUS_TESTS_DIR', '/tmp/zeus-tests')
-PROJECT_ROOT = '%s/%s' % (TESTS_DIR, datetime.datetime.now())
+TESTS_DIR = os.environ.get('ZEUS_TESTS_DIR', 'tmp/zeus-tests')
+PROJECT_ROOT = '%s/%s' % (TESTS_DIR, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
 ZEUS_ELECTION_LOG_DIR = os.path.join(PROJECT_ROOT, 'election_logs')
 ZEUS_PROOFS_PATH = os.path.join(PROJECT_ROOT, 'proofs')
 ZEUS_RESULTS_PATH = os.path.join(PROJECT_ROOT, 'results')
