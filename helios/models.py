@@ -174,7 +174,8 @@ class PollMix(models.Model):
         return True
 
     def zeus_mix(self):
-        return from_canonical(self.mix_file.read())
+        with self.mix_file as f:
+            return from_canonical(f.read())
 
     def mix_parts_iter(self, mix):
         size = len(mix)
@@ -1092,7 +1093,7 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
         # new_voter_file.voter_file.save(random_filename, uploaded_file)
 
         new_voter_file = VoterFile(poll=self,
-                                   voter_file_content=base64.encodestring(uploaded_file.read()).decode())
+                                   voter_file_content=base64.encodebytes(uploaded_file.read()).decode())
         new_voter_file.save()
         return new_voter_file
 
@@ -1349,9 +1350,8 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
         results_json = self.zeus.get_results()
 
         # json file
-        jsonfile = open(self.get_result_file_path('json', 'json'), 'w')
-        json.dump(results_json, jsonfile)
-        jsonfile.close()
+        with open(self.get_resul_file_path('json', 'json'), 'w') as jsonfile:
+            json.dump(results_json, jsonfile)
 
         # pdf report
         if self.get_module().module_id =='score':
@@ -1366,9 +1366,8 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
                       self.get_result_file_path('pdf', 'pdf'), score=True)
 
             from zeus.reports import csv_from_score_polls
-            csvfile = open(self.get_result_file_path('csv', 'csv'), "w")
-            csv_from_score_polls(self.election, [self], csvfile)
-            csvfile.close()
+            with open(self.get_result_file_path('csv', 'csv'), 'w') as csvfile:
+                csv_from_score_polls(self.election, [self], csvfile)
         else:
             from zeus.results_report import build_doc
             results_name = self.election.name
@@ -1384,9 +1383,8 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
 
             # CSV
             from zeus.reports import csv_from_polls
-            csvfile = open(self.get_result_file_path('csv', 'csv'), "w")
-            csv_from_polls(self.election, [self], csvfile)
-            csvfile.close()
+            with open(self.get_result_file_path('csv', 'csv'), 'w') as csvfile:
+                csv_from_polls(self.election, [self], csvfile)
 
     def save(self, *args, **kwargs):
         if not self.uuid:
@@ -1528,7 +1526,8 @@ class VoterFile(models.Model):
         if self.voter_file_content:
             voter_data = base64.b64decode(self.voter_file_content.encode())
         else:
-            voter_data = open(self.voter_file.path, "rb").read()
+            with open(self.voter_file.path, "rb") as f:
+                voter_data = f.read()
 
         return iter_voter_data(voter_data, email_validator=email_validator,
                                preferred_encoding=preferred_encoding)
@@ -1562,9 +1561,10 @@ class VoterFile(models.Model):
 
         # now we're looking straight at the content
         if self.voter_file_content:
-            voter_data = base64.decodestring(self.voter_file_content.encode())
+            voter_data = base64.decodebytes(self.voter_file_content.encode())
         else:
-            voter_data = open(self.voter_file.path, "rb").read()
+            with open(self.voter_file.path, "rb") as f:
+                voter_data = f.read()
 
         reader = iter_voter_data(voter_data, preferred_encoding=preferred_encoding)
 
